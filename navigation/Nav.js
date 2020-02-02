@@ -28,7 +28,7 @@ const mainNav = createStackNavigator(
         },
         headerTitleStyle: {
             color: colors.basic.dark,
-            fontFamily: 'open-sans',
+            //fontFamily: 'open-sans',
             fontSize: 22
         }
     }
