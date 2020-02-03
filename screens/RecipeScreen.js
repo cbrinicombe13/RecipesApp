@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Al
 import { Ionicons } from '@expo/vector-icons'
 
 import RecipeInfo from '../components/RecipeInfo';
+import ListItem from '../components/ListItem';
 
 import colors from '../themes/colors';
 
 const RecipeScreen = (props) => {
     const recipe = props.navigation.getParam('recipe');
-
     return (
         <ScrollView style={styles.screen}>
             <View style={styles.titleContainer}>
@@ -17,7 +17,7 @@ const RecipeScreen = (props) => {
             <View style={styles.imageContainer}>
                 <Image source={{ uri: recipe.imageUrl }} style={styles.bgImage} />
             </View>
-            <RecipeInfo style = {styles.recipeInfo} recipe={recipe} navigation={props.navigation}/>
+            <RecipeInfo style={styles.recipeInfo} recipe={recipe} navigation={props.navigation} />
             <View style={styles.ingredientsContainer}>
                 <TouchableWithoutFeedback onPress={() => Alert.alert('Information', 'Ingredients')}>
                     <View style={styles.ingredientsHeader}>
@@ -26,9 +26,7 @@ const RecipeScreen = (props) => {
                 </TouchableWithoutFeedback>
                 {recipe.ingredients.map(item => {
                     return (
-                        <View key={recipe.ingredients.indexOf(item)} style={styles.itemContainer}>
-                            <Text>{item}</Text>
-                        </View>
+                        <ListItem key={recipe.ingredients.indexOf(item)} item={item} />
                     );
                 })}
             </View>
@@ -38,9 +36,7 @@ const RecipeScreen = (props) => {
                 </View>
                 {recipe.steps.map(item => {
                     return (
-                        <View key={recipe.steps.indexOf(item)} style={styles.itemContainer}>
-                            <Text>{item}</Text>
-                        </View>
+                        <ListItem key={recipe.steps.indexOf(item)} item={item} />
                     );
                 })}
             </View>
