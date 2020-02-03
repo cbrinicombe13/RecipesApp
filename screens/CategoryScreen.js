@@ -16,12 +16,21 @@ const CategoryScreen = (props) => {
         const { imageUrl, title, duration, complexity, affordability } = itemData.item;
         return (
             <RecipeTile
-                onPress={() => {}}
+                onPress={() => {
+                    props.navigation.navigate({
+                        routeName: 'Recipe',
+                        params: {
+                            recipe: itemData.item
+                        }
+                    });
+                }}
+                navigation={props.navigation}
                 image={imageUrl}
                 title={title}
                 duration={duration}
                 complexity={complexity}
                 affordability={affordability}
+                recipe={itemData.item}
                 />
         );
     }

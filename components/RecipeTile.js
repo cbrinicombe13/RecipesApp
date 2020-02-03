@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
 import colors from '../themes/colors';
 
+import RecipeInfo from '../components/RecipeInfo';
+
 const RecipeTile = (props) => {
     return (
         <TouchableOpacity
@@ -14,11 +16,7 @@ const RecipeTile = (props) => {
                     <Text style={styles.title} numberOfLines={1}>{props.title}</Text>
                 </View>
             </ImageBackground>
-            <View style={styles.infoContainer}>
-                <Text>{props.duration}m</Text>
-                <Text>{props.complexity}</Text>
-                <Text>{props.affordability}</Text>
-            </View>
+            <RecipeInfo recipe={props.recipe} navigation={props.navigation} style={styles.recipeInfo}/>
         </TouchableOpacity >
     );
 }
@@ -66,5 +64,9 @@ const styles = StyleSheet.create({
     title: {
         color: colors.basic.pearl,
         fontSize: 22
+    },
+    recipeInfo: {
+        borderBottomLeftRadius: borderRadius,
+        borderBottomRightRadius: borderRadius
     }
 });

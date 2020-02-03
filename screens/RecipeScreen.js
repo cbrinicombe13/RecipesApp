@@ -1,12 +1,114 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+
+import RecipeInfo from '../components/RecipeInfo';
+
+import colors from '../themes/colors';
 
 const RecipeScreen = (props) => {
+    const recipe = props.navigation.getParam('recipe');
+
     return (
-        <View>
-            <Text>Recipe Screen</Text>
-        </View>
-    )
+        <ScrollView style={styles.screen}>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title} numberOfLines={1}>{recipe.title}</Text>
+            </View>
+            <View style={styles.imageContainer}>
+                <Image source={{ uri: recipe.imageUrl }} style={styles.bgImage} />
+            </View>
+            <RecipeInfo style = {styles.recipeInfo} recipe={recipe} navigation={props.navigation}/>
+            <View style={styles.ingredientsContainer}>
+                <TouchableWithoutFeedback onPress={() => Alert.alert('Information', 'Ingredients')}>
+                    <View style={styles.ingredientsHeader}>
+                        <Ionicons name='ios-basket' size={30} color={colors.basic.dark} />
+                    </View>
+                </TouchableWithoutFeedback>
+                {recipe.ingredients.map(item => {
+                    return (
+                        <View key={recipe.ingredients.indexOf(item)} style={styles.itemContainer}>
+                            <Text>{item}</Text>
+                        </View>
+                    );
+                })}
+            </View>
+            <View style={styles.ingredientsContainer}>
+                <View style={styles.ingredientsHeader}>
+                    <Text style={styles.info}>Method</Text>
+                </View>
+                {recipe.steps.map(item => {
+                    return (
+                        <View key={recipe.steps.indexOf(item)} style={styles.itemContainer}>
+                            <Text>{item}</Text>
+                        </View>
+                    );
+                })}
+            </View>
+        </ScrollView>
+    );
 }
 
 export default RecipeScreen
+
+const borderRadius = 10;
+
+const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        margin: 10,
+        // borderWidth: 1,
+        // borderColor: 'black'
+    },
+    titleContainer: {
+        margin: 10,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: borderRadius,
+        backgroundColor: colors.basic.pearl
+    },
+    title: {
+        fontSize: 22,
+        color: colors.basic.dark
+    },
+    imageContainer: {
+        marginHorizontal: 10,
+        marginVertical: 5,
+        height: 200
+    },
+    bgImage: {
+        width: '100%',
+        height: '100%',
+        overflow: "hidden",
+        borderRadius: borderRadius
+    },
+    info: {
+        color: colors.basic.dark,
+        fontSize: 18,
+    },
+    ingredientsHeader: {
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomColor: colors.basic.dark,
+        borderBottomWidth: 1
+    },
+    ingredientsContainer: {
+        marginHorizontal: 10,
+        marginVertical: 5
+    },
+    itemContainer: {
+        marginHorizontal: 10,
+        marginVertical: 5,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: borderRadius,
+        backgroundColor: colors.basic.pearl
+    },
+    recipeInfo: {
+        borderRadius: borderRadius,
+        padding: 10,
+        margin: 10,
+    }
+});
