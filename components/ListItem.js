@@ -24,7 +24,6 @@ const ListItem = (props) => {
                 <Text style={condStyle.item}>{props.item}</Text>
             </View>
         </TouchableOpacity>
-
     );
 }
 
