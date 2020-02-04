@@ -9,7 +9,7 @@ import colors from '../themes/colors';
 const RecipeInfo = (props) => {
 
     const infoAlert = (message) => {
-        if(props.navigation.state.routeName === 'Category') {
+        if(props.navigation.state.routeName !== 'Recipe') {
             return;
         }
         return Alert.alert('Information', message);

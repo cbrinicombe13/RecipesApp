@@ -1,11 +1,14 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import RecipeInfo from '../components/RecipeInfo';
 import ListItem from '../components/ListItem';
+import CustomHeaderButton from '../components/CustomHeaderButton';
 
 import colors from '../themes/colors';
+import { setWorldOriginAsync } from 'expo/build/AR';
 
 const RecipeScreen = (props) => {
     const recipe = props.navigation.getParam('recipe');
@@ -42,6 +45,20 @@ const RecipeScreen = (props) => {
             </View>
         </ScrollView>
     );
+}
+
+RecipeScreen.navigationOptions = {
+    headerRight: () => {
+        return (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    iconName='ios-star'
+                    color={colors.basic.dark}
+                    title='Favorite'
+                    onPress={() => { console.log('Test') }} />
+            </HeaderButtons>
+        );
+    }
 }
 
 export default RecipeScreen

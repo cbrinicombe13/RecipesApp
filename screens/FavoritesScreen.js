@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
-
 import RecipeTile from '../components/RecipeTile';
 import { RECIPES } from '../data/data';
 
@@ -11,15 +10,14 @@ const FavoritesScreen = (props) => {
         const { imageUrl, title, duration, complexity, affordability } = itemData.item;
         return (
             <RecipeTile
-                // onPress={() => {
-                //     props.navigation.navigate({
-                //         routeName: 'Recipe',
-                //         params: {
-                //             recipe: itemData.item
-                //         }
-                //     });
-                // }}
-                onPress={() => {}}
+                onPress={() => {
+                    props.navigation.navigate({
+                        routeName: 'Recipe',
+                        params: {
+                            recipe: itemData.item
+                        }
+                    });
+                }}
                 navigation={props.navigation}
                 image={imageUrl}
                 title={title}
