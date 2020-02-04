@@ -1,10 +1,8 @@
 import React from 'react'
-import { View, Text, Button, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 
 import { CATEGORIES } from '../data/data';
 import HomeTile from '../components/HomeTile';
-
-
 
 const HomeScreen = (props) => {
 

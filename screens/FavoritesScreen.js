@@ -1,10 +1,13 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList } from 'react-native'
 import RecipeTile from '../components/RecipeTile';
-import { RECIPES } from '../data/data';
+import { useSelector } from 'react-redux';
 
 const FavoritesScreen = (props) => {
-    const favs = RECIPES.filter(recipe => recipe.categoryIds.indexOf('c2') >= 0);
+
+    const recipes = useSelector(state => state.recipes.favorites);
+
+    const favs = recipes.filter(recipe => recipe.categoryIds.indexOf('c2') >= 0);
 
     const renderRecipe = (itemData) => {
         const { imageUrl, title, duration, complexity, affordability } = itemData.item;

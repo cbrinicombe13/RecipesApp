@@ -1,13 +1,16 @@
 import React from 'react'
 import { FlatList } from 'react-native'
+import { useSelector } from 'react-redux';
 
-import { RECIPES } from '../data/data';
-import RecipeTile from '../components/RecipeTile'
+import RecipeTile from '../components/RecipeTile';
 
 const CategoryScreen = (props) => {
 
     const catID = props.navigation.getParam('catID');
-    const displayRecipes = RECIPES.filter(recipe => {
+
+    const recipes = useSelector(state => state.recipes.recipes);
+
+    const displayRecipes = recipes.filter(recipe => {
         const catIds = recipe.categoryIds;
         return (catIds.find(id => id === catID));
     });

@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
 import { enableScreens } from 'react-native-screens';
 import { AppLoading } from 'expo';
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 
-import colors from './themes/colors';
 import Nav from './navigation/Nav';
+import recipesReducer from './store/reducers/recipes';
 
 enableScreens();
 
-
+const rootReducer = combineReducers({
+  recipes: recipesReducer
+});
+const store = createStore(rootReducer);
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -26,15 +30,8 @@ export default function App() {
   }
 
   return (
-    <Nav />
+    <Provider store={store}>
+      <Nav />
+    </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.basic.pearl,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
