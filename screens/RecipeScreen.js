@@ -47,18 +47,25 @@ const RecipeScreen = (props) => {
     );
 }
 
-RecipeScreen.navigationOptions = {
-    headerRight: () => {
-        return (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item
-                    iconName='ios-star'
-                    color={colors.basic.dark}
-                    title='Favorite'
-                    onPress={() => { console.log('Test') }} />
-            </HeaderButtons>
-        );
+RecipeScreen.navigationOptions = navData => {
+    const source = navData.navigation.getParam('source');
+    if(source === 'Favorites') {
+        return;
     }
+    return {
+        headerRight: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        iconName='ios-star'
+                        color={colors.basic.dark}
+                        title='Favorite'
+                        onPress={() => { console.log('Test') }} />
+                </HeaderButtons>
+            );
+        }
+    }
+    
 }
 
 export default RecipeScreen
@@ -69,8 +76,6 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         margin: 10,
-        // borderWidth: 1,
-        // borderColor: 'black'
     },
     titleContainer: {
         margin: 10,
