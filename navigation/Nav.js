@@ -60,6 +60,25 @@ const FavTabNavConfig = {
     }
 };
 
-const FavTabNav = createBottomTabNavigator(FavTabNavConfig);
+const FavTabNav = Platform.OS === 'ios'
+    ? createBottomTabNavigator(FavTabNavConfig, {
+        tabBarOptions: {
+            activeTintColor: colors.basic.dark,
+            inactiveTintColor: 'rgba(0,0,0,0.2)',
+            tabStyle: {
+                backgroundColor: colors.basic.pearl,
+            },
+            safeAreaInset: {
+                bottom: 'never'
+            }
+        }
+    })
+    : createMaterialBottomTabNavigator(FavTabNavConfig, {
+        activeColor: colors.basic.indigo,
+        inactiveColor: 'rgba(0,0,0,0.2)',
+        barStyle: {
+            backgroundColor: colors.basic.pearl
+        }
+    });
 
 export default createAppContainer(FavTabNav);
