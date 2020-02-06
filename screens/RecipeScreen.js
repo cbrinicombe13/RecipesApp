@@ -102,7 +102,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 22,
-        color: colors.basic.dark
+        color: colors.basic.dark,
+        fontFamily: 'open-sans'
     },
     imageContainer: {
         marginHorizontal: 10,
@@ -118,6 +119,7 @@ const styles = StyleSheet.create({
     info: {
         color: colors.basic.dark,
         fontSize: 18,
+        fontFamily: 'open-sans'
     },
     ingredientsHeader: {
         height: 40,

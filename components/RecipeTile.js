@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
     },
     title: {
         color: colors.basic.pearl,
-        fontSize: 22
+        fontSize: 22,
+        fontFamily: 'open-sans'
     },
     recipeInfo: {
         borderBottomLeftRadius: borderRadius,

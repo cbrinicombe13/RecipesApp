@@ -8,7 +8,7 @@ const HomeTile = (props) => {
             activeOpacity={0.6}
             onPress={props.onPress}>
             <View style={styles.card}>
-                <Text style={styles.title} numberOfLines={2}>{props.title}</Text>
+                <Text style={styles.title} numberOfLines={1}>{props.title}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         height: 150,
     },
     title: {
-        fontSize: 22,
-        //fontFamily: 'open-sans'
+        fontSize: 20,
+        fontFamily: 'open-sans'
     }
 });

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, FlatList } from 'react-native'
+import { View, Text, FlatList, StyleSheet } from 'react-native'
 import RecipeTile from '../components/RecipeTile';
 import { useSelector } from 'react-redux';
 
@@ -7,8 +7,15 @@ const FavoritesScreen = (props) => {
 
     const favRecipes = useSelector(state => state.recipes.favorites);
 
+    if(favRecipes.length === 0 || !favRecipes) {
+        return (
+            <View style={styles.fallbackContainer}>
+                <Text style={styles.fallbackText} numberOfLines={2}>Add favorites using the star icons!</Text>
+            </View>
+        );
+    }
+
     const renderRecipe = (itemData) => {
-        const { imageUrl, title, duration, complexity, affordability } = itemData.item;
         return (
             <RecipeTile
                 onPress={() => {
@@ -20,16 +27,10 @@ const FavoritesScreen = (props) => {
                     });
                 }}
                 navigation={props.navigation}
-                image={imageUrl}
-                title={title}
-                duration={duration}
-                complexity={complexity}
-                affordability={affordability}
                 recipe={itemData.item}
             />
         );
     }
-
 
     return (
         <FlatList data={favRecipes} renderItem={renderRecipe} numColumns={1} />
@@ -37,3 +38,18 @@ const FavoritesScreen = (props) => {
 }
 
 export default FavoritesScreen
+
+const styles = StyleSheet.create({
+    fallbackContainer: {
+        flex: 1,
+        padding: 10,
+        margin: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    fallbackText: {
+        textAlign:'center',
+        fontFamily: 'open-sans',
+        fontSize: 20
+    }
+});

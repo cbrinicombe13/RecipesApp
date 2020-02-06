@@ -14,7 +14,8 @@ const ListItem = (props) => {
         item: {
             textDecorationLine: have ? 'line-through' : 'none',
             textDecorationStyle: 'solid',
-            textDecorationColor: 'black'
+            textDecorationColor: 'black',
+            fontFamily: 'open-sans'
         }
     });
 

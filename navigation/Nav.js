@@ -34,7 +34,7 @@ const mainNav = createStackNavigator(
         },
         headerTitleStyle: {
             color: colors.basic.dark,
-            //fontFamily: 'open-sans',
+            fontFamily: 'open-sans',
             fontSize: 22
         }
     }
@@ -52,7 +52,7 @@ const FavStackNav = createStackNavigator(
             },
             headerTitleStyle: {
                 color: colors.basic.dark,
-                //fontFamily: 'open-sans',
+                fontFamily: 'open-sans',
                 fontSize: 22
             }
         }
