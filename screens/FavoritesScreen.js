@@ -15,8 +15,7 @@ const FavoritesScreen = (props) => {
                     props.navigation.navigate({
                         routeName: 'Recipe',
                         params: {
-                            recipe: itemData.item,
-                            source: 'Favorites'
+                            recipe: itemData.item
                         }
                     });
                 }}

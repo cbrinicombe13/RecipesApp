@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import RecipeInfo from '../components/RecipeInfo';
 import ListItem from '../components/ListItem';
@@ -13,18 +13,21 @@ import colors from '../themes/colors';
 
 const RecipeScreen = (props) => {
     const recipe = props.navigation.getParam('recipe');
+    const recipeIsFav = useSelector(state => state.recipes.favorites.some(recipe => recipe.id === recipe.id));
 
     const dispatch = useDispatch();
 
     const toggleFavoriteHandler = useCallback(() => {
-        //const recipeId = recipe.id
-        console.log('Mark ' + recipe.id);
         dispatch(toggleFavorite(recipe.id));
     }, [dispatch, recipe.id]);
 
     useEffect(() => {
         props.navigation.setParams({ toggleFav: toggleFavoriteHandler });
     }, [toggleFavoriteHandler]);
+
+    useEffect(() => {
+        props.navigation.setParams({ isFav: recipeIsFav});
+    }, [recipeIsFav]);
 
     return (
         <ScrollView style={styles.screen}>
@@ -62,17 +65,14 @@ const RecipeScreen = (props) => {
 }
 
 RecipeScreen.navigationOptions = navData => {
-    //const source = navData.navigation.getParam('source');
     const toggleFav = navData.navigation.getParam('toggleFav');
-    // if (source === 'Favorites') {
-    //     return;
-    // }
+    const isFav = navData.navigation.getParam('isFav');
     return {
         headerRight: () => {
             return (
                 <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                     <Item
-                        iconName='ios-star'
+                        iconName={isFav ? 'ios-star' : 'ios-star-outline'}
                         color={colors.basic.dark}
                         title='Favorite'
                         onPress={toggleFav} />

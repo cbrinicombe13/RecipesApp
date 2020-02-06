@@ -11,9 +11,9 @@ const RecipeTile = (props) => {
             activeOpacity={0.6}
             onPress={props.onPress}>
             <ImageBackground
-                source={{ uri: props.image }} style={styles.bgImage}>
+                source={{ uri: props.recipe.imageUrl }} style={styles.bgImage}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title} numberOfLines={1}>{props.title}</Text>
+                    <Text style={styles.title} numberOfLines={1}>{props.recipe.title}</Text>
                 </View>
             </ImageBackground>
             <RecipeInfo recipe={props.recipe} navigation={props.navigation} style={styles.recipeInfo}/>

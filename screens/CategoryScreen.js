@@ -16,7 +16,6 @@ const CategoryScreen = (props) => {
     });
 
     const renderRecipe = (itemData) => {
-        const { imageUrl, title, duration, complexity, affordability } = itemData.item;
         return (
             <RecipeTile
                 onPress={() => {
@@ -28,11 +27,6 @@ const CategoryScreen = (props) => {
                     });
                 }}
                 navigation={props.navigation}
-                image={imageUrl}
-                title={title}
-                duration={duration}
-                complexity={complexity}
-                affordability={affordability}
                 recipe={itemData.item}
                 />
         );
