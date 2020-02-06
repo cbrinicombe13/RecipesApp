@@ -18,6 +18,7 @@ const RecipeScreen = (props) => {
 
     const toggleFavoriteHandler = useCallback(() => {
         //const recipeId = recipe.id
+        console.log('Mark ' + recipe.id);
         dispatch(toggleFavorite(recipe.id));
     }, [dispatch, recipe.id]);
 
@@ -61,11 +62,11 @@ const RecipeScreen = (props) => {
 }
 
 RecipeScreen.navigationOptions = navData => {
-    const source = navData.navigation.getParam('source');
+    //const source = navData.navigation.getParam('source');
     const toggleFav = navData.navigation.getParam('toggleFav');
-    if (source === 'Favorites') {
-        return;
-    }
+    // if (source === 'Favorites') {
+    //     return;
+    // }
     return {
         headerRight: () => {
             return (

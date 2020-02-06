@@ -5,9 +5,7 @@ import { useSelector } from 'react-redux';
 
 const FavoritesScreen = (props) => {
 
-    const recipes = useSelector(state => state.recipes.favorites);
-
-    const favs = recipes.filter(recipe => recipe.categoryIds.indexOf('c2') >= 0);
+    const favRecipes = useSelector(state => state.recipes.favorites);
 
     const renderRecipe = (itemData) => {
         const { imageUrl, title, duration, complexity, affordability } = itemData.item;
@@ -35,12 +33,8 @@ const FavoritesScreen = (props) => {
 
 
     return (
-        <FlatList data={favs} renderItem={renderRecipe} numColumns={1} />
+        <FlatList data={favRecipes} renderItem={renderRecipe} numColumns={1} />
     );
 }
 
 export default FavoritesScreen
-
-const styles = StyleSheet.create({
-
-});
