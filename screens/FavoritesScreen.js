@@ -1,7 +1,12 @@
 import React from 'react'
 import { View, Text, FlatList, StyleSheet } from 'react-native'
-import RecipeTile from '../components/RecipeTile';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector } from 'react-redux';
+
+import RecipeTile from '../components/RecipeTile';
+import CustomHeaderButton from '../components/CustomHeaderButton';
+
+import colors from '../themes/colors';
 
 const FavoritesScreen = (props) => {
 
@@ -36,6 +41,24 @@ const FavoritesScreen = (props) => {
         <FlatList data={favRecipes} renderItem={renderRecipe} numColumns={1} />
     );
 }
+
+FavoritesScreen.navigationOptions = (navData) => {
+    return {
+        headerLeft: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        iconName='ios-menu'
+                        color={colors.basic.dark}
+                        title='Menu'
+                        onPress={() => {
+                            navData.navigation.toggleDrawer();
+                        }} />
+                </HeaderButtons>
+            );
+        }
+    }
+};
 
 export default FavoritesScreen
 

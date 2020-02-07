@@ -1,8 +1,12 @@
 import React from 'react'
 import { FlatList } from 'react-native'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { CATEGORIES } from '../data/data';
 import HomeTile from '../components/HomeTile';
+import CustomHeaderButton from '../components/CustomHeaderButton';
+
+import colors from '../themes/colors';
 
 const HomeScreen = (props) => {
 
@@ -10,7 +14,7 @@ const HomeScreen = (props) => {
         return (
             <HomeTile
                 onPress={() => {
-                    const { id, title} = itemData.item
+                    const { id, title } = itemData.item
                     props.navigation.navigate({
                         routeName: 'Category',
                         params: {
@@ -20,7 +24,7 @@ const HomeScreen = (props) => {
                     });
                 }}
                 color={itemData.item.color}
-                title={itemData.item.title}/>
+                title={itemData.item.title} />
         );
     }
 
@@ -28,8 +32,26 @@ const HomeScreen = (props) => {
         <FlatList
             data={CATEGORIES}
             renderItem={renderHomeTile}
-            numColumns={2}/>
+            numColumns={2} />
     );
 }
+
+HomeScreen.navigationOptions = (navData) => {
+    return {
+        headerLeft: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        iconName='ios-menu'
+                        color={colors.basic.dark}
+                        title='Menu'
+                        onPress={() => {
+                            navData.navigation.toggleDrawer();
+                        }} />
+                </HeaderButtons>
+            );
+        }
+    }
+};
 
 export default HomeScreen

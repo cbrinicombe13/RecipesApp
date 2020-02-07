@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
 import { Platform } from 'react-native';
 
@@ -9,9 +10,21 @@ import HomeScreen from '../screens/HomeScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import RecipeScreen from '../screens/RecipeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
+import FiltersScreen from '../screens/FiltersScreen';
 
 import colors from '../themes/colors';
 import { Ionicons } from '@expo/vector-icons';
+
+const defaultNavOptions = {
+    headerStyle: {
+        backgroundColor: colors.basic.pearl
+    },
+    headerTitleStyle: {
+        color: colors.basic.dark,
+        fontFamily: 'open-sans',
+        fontSize: 22
+    }
+};
 
 const mainNav = createStackNavigator(
     {
@@ -28,34 +41,15 @@ const mainNav = createStackNavigator(
             screen: RecipeScreen,
         }
     }, {
-    defaultNavigationOptions: {
-        headerStyle: {
-            backgroundColor: colors.basic.pearl
-        },
-        headerTitleStyle: {
-            color: colors.basic.dark,
-            fontFamily: 'open-sans',
-            fontSize: 22
-        }
-    }
+    defaultNavigationOptions: defaultNavOptions
 });
 
 const FavStackNav = createStackNavigator(
     {
         Favorites: FavoritesScreen,
         Recipe: RecipeScreen
-    },
-    {
-        defaultNavigationOptions: {
-            headerStyle: {
-                backgroundColor: colors.basic.pearl
-            },
-            headerTitleStyle: {
-                color: colors.basic.dark,
-                fontFamily: 'open-sans',
-                fontSize: 22
-            }
-        }
+    }, {
+        defaultNavigationOptions: defaultNavOptions
     });
 
 const FavTabNavConfig = {
@@ -98,4 +92,33 @@ const FavTabNav = Platform.OS === 'ios'
         }
     });
 
-export default createAppContainer(FavTabNav);
+const FiltersStack = createStackNavigator({
+    Filters: FiltersScreen
+}, {
+    defaultNavigationOptions: defaultNavOptions
+});
+
+const drawerNav = createDrawerNavigator({
+    FavTabNav: {
+        screen: FavTabNav,
+        navigationOptions: {
+            drawerLabel: 'Categories'
+        }
+    },
+    Filters: {
+        screen: FiltersStack,
+        navigationOptions: {
+            headerTitle: 'Filters'
+        }
+    }
+}, {
+    contentOptions: {
+        activeTintColor: colors.basic.indigo,
+        labelStyle: {
+            fontFamily: 'open-sans',
+            fontSize: 20
+        }
+    }
+});
+
+export default createAppContainer(drawerNav);
