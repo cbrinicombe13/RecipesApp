@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { View, Text, FlatList, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux';
 
 import RecipeTile from '../components/RecipeTile';
@@ -8,7 +8,7 @@ const CategoryScreen = (props) => {
 
     const catID = props.navigation.getParam('catID');
 
-    const recipes = useSelector(state => state.recipes.recipes);
+    const recipes = useSelector(state => state.recipes.filteredRecipes);
 
     const displayRecipes = recipes.filter(recipe => {
         const catIds = recipe.categoryIds;
@@ -28,7 +28,15 @@ const CategoryScreen = (props) => {
                 }}
                 navigation={props.navigation}
                 recipe={itemData.item}
-                />
+            />
+        );
+    }
+
+    if (displayRecipes.length === 0 || !displayRecipes) {
+        return (
+            <View style={styles.fallbackContainer}>
+                <Text style={styles.fallbackText}>No recipes with current filters!</Text>
+            </View>
         );
     }
 
@@ -36,7 +44,7 @@ const CategoryScreen = (props) => {
         <FlatList
             data={displayRecipes}
             renderItem={renderRecipe}
-            numColumns={1}/>
+            numColumns={1} />
     );
 }
 
@@ -48,3 +56,18 @@ CategoryScreen.navigationOptions = (navData) => {
 }
 
 export default CategoryScreen
+
+const styles = StyleSheet.create({
+    fallbackContainer: {
+        flex: 1,
+        padding: 10,
+        margin: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    fallbackText: {
+        textAlign: 'center',
+        fontFamily: 'open-sans',
+        fontSize: 20
+    }
+});

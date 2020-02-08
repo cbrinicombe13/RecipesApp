@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, Switch } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+import { useDispatch } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import CustomHeaderButton from '../components/CustomHeaderButton'
 
+import { setFilters } from '../store/actions/recipes';
+import CustomHeaderButton from '../components/CustomHeaderButton'
 import Filter from '../components/Filter';
 import colors from '../themes/colors';
 
@@ -12,15 +14,31 @@ const FiltersScreen = (props) => {
     const [vegetarian, setVegetarian] = useState(false);
     const [lactoseFree, setLactoseFree] = useState(false);
 
+    const dispatch = useDispatch();
+
+    const saveFilters = useCallback(() => {
+        const filters = {
+            glutenFree: glutenFree,
+            vegan: vegan,
+            vegetarian: vegetarian,
+            lactoseFree: lactoseFree
+        };
+        dispatch(setFilters(filters));
+    }, [glutenFree, vegan, vegetarian, lactoseFree, dispatch]);
+
+    useEffect(() => {
+        props.navigation.setParams({ save: saveFilters });
+    }, [saveFilters]);
+
     return (
         <View style={styles.screen}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>Filters</Text>
             </View>
-            <Filter label='Gluten Free' value={glutenFree} onValueChange={value => setGlutenFree(value)}/>
-            <Filter label='Vegan' value={vegan} onValueChange={value => setVegan(value)}/>
-            <Filter label='Vegetarian' value={vegetarian} onValueChange={value => setVegetarian(value)}/>
-            <Filter label='Lactose Free' value={lactoseFree} onValueChange={value => setLactoseFree(value)}/>
+            <Filter label='Gluten Free' value={glutenFree} onValueChange={value => setGlutenFree(value)} />
+            <Filter label='Vegan' value={vegan} onValueChange={value => setVegan(value)} />
+            <Filter label='Vegetarian' value={vegetarian} onValueChange={value => setVegetarian(value)} />
+            <Filter label='Lactose Free' value={lactoseFree} onValueChange={value => setLactoseFree(value)} />
         </View>
     );
 }
@@ -37,6 +55,17 @@ FiltersScreen.navigationOptions = (navData) => {
                         onPress={() => {
                             navData.navigation.toggleDrawer();
                         }} />
+                </HeaderButtons>
+            );
+        },
+        headerRight: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                    <Item
+                        iconName='ios-save'
+                        color={colors.basic.dark}
+                        title='Save'
+                        onPress={navData.navigation.getParam('save')} />
                 </HeaderButtons>
             );
         }
