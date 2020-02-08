@@ -7,11 +7,13 @@ import { Provider } from 'react-redux';
 
 import Nav from './navigation/Nav';
 import recipesReducer from './store/reducers/recipes';
+import themesReducer from './store/reducers/themes';
 
 enableScreens();
 
 const rootReducer = combineReducers({
-  recipes: recipesReducer
+  recipes: recipesReducer,
+  themes: themesReducer
 });
 const store = createStore(rootReducer);
 

@@ -5,12 +5,14 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
 import { Platform } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import HomeScreen from '../screens/HomeScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import RecipeScreen from '../screens/RecipeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import FiltersScreen from '../screens/FiltersScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 import colors from '../themes/colors';
 import { Ionicons } from '@expo/vector-icons';
@@ -98,6 +100,12 @@ const FiltersStack = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions
 });
 
+const SettingsStack = createStackNavigator({
+    Settings: SettingsScreen
+}, {
+    defaultNavigationOptions: defaultNavOptions
+});
+
 const drawerNav = createDrawerNavigator({
     FavTabNav: {
         screen: FavTabNav,
@@ -109,6 +117,12 @@ const drawerNav = createDrawerNavigator({
         screen: FiltersStack,
         navigationOptions: {
             headerTitle: 'Filters'
+        }
+    },
+    Settings: {
+        screen: SettingsStack,
+        navigationOptions: {
+            drawerLabel: 'Settings'
         }
     }
 }, {

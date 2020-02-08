@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
+import { useSelector } from 'react-redux'
 import colors from '../themes/colors';
 
 import RecipeInfo from '../components/RecipeInfo';
@@ -16,7 +17,7 @@ const RecipeTile = (props) => {
                     <Text style={styles.title} numberOfLines={1}>{props.recipe.title}</Text>
                 </View>
             </ImageBackground>
-            <RecipeInfo recipe={props.recipe} navigation={props.navigation} style={styles.recipeInfo}/>
+            <RecipeInfo recipe={props.recipe} navigation={props.navigation} style={styles.recipeInfo} />
         </TouchableOpacity >
     );
 }

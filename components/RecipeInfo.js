@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert } from 'react-native'
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -7,16 +8,18 @@ import uuid from 'uuid';
 import colors from '../themes/colors';
 
 const RecipeInfo = (props) => {
+    const isDarkTheme = useSelector(state => state.themes.dark);
+    const theme = isDarkTheme ? colors.dark : colors.basic;
 
     const infoAlert = (message) => {
         if(props.navigation.state.routeName !== 'Recipe') {
             return;
         }
         return Alert.alert('Information', message);
-    }
+    };
 
     return (
-        <View style={{ ...styles.infoContainer, ...props.style }}>
+        <View style={{ ...styles.infoContainer, ...props.style, backgroundColor: theme.elevation }}>
             <TouchableWithoutFeedback onPress={() => infoAlert('Cooking Time')}>
                 <View style={styles.third}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -58,7 +61,7 @@ export default RecipeInfo
 const styles = StyleSheet.create({
     infoContainer: {
         flexDirection: 'row',
-        backgroundColor: colors.basic.pearl,
+        //backgroundColor: colors.basic.pearl,
     },
     info: {
         color: colors.basic.dark,

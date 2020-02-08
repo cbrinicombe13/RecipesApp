@@ -5,9 +5,7 @@ import { useSelector } from 'react-redux';
 import RecipeTile from '../components/RecipeTile';
 
 const CategoryScreen = (props) => {
-
     const catID = props.navigation.getParam('catID');
-
     const recipes = useSelector(state => state.recipes.filteredRecipes);
 
     const displayRecipes = recipes.filter(recipe => {
