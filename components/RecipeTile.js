@@ -6,6 +6,18 @@ import colors from '../themes/colors';
 import RecipeInfo from '../components/RecipeInfo';
 
 const RecipeTile = (props) => {
+    const isDark = useSelector(state => state.themes.dark);
+    const theme = isDark ? colors.dark : colors.basic;
+
+    const themeStyles = StyleSheet.create({
+        titleContainer: {
+            backgroundColor: isDark ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.5)',
+        },
+        title: {
+            color: isDark ? theme.primary : colors.basic.elevation,
+        }
+    });
+
     return (
         <TouchableOpacity
             style={styles.cardContainer}
@@ -13,8 +25,8 @@ const RecipeTile = (props) => {
             onPress={props.onPress}>
             <ImageBackground
                 source={{ uri: props.recipe.imageUrl }} style={styles.bgImage}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title} numberOfLines={1}>{props.recipe.title}</Text>
+                <View style={{ ...styles.titleContainer, ...themeStyles.titleContainer }}>
+                    <Text style={{ ...styles.title, ...themeStyles.title }} numberOfLines={1}>{props.recipe.title}</Text>
                 </View>
             </ImageBackground>
             <RecipeInfo recipe={props.recipe} navigation={props.navigation} style={styles.recipeInfo} />
@@ -40,21 +52,12 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         margin: 5,
-        padding: 5,
-        height: '20%',
+        padding: 2,
+        height: '23%',
         width: '90%',
-        backgroundColor: 'rgba(0,0,0,0.5)',
         borderRadius: borderRadius,
         justifyContent: 'center',
-        alignItems: 'flex-start'
-    },
-    infoContainer: {
-        flexDirection: 'row',
-        padding: 2,
-        justifyContent: "space-around",
-        backgroundColor: colors.basic.pearl,
-        borderBottomLeftRadius: borderRadius,
-        borderBottomRightRadius: borderRadius
+        alignItems: 'flex-start',
     },
     bgImage: {
         flex: 1,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 
 import { setFilters } from '../store/actions/recipes';
@@ -13,6 +13,7 @@ const FiltersScreen = (props) => {
     const [vegan, setVegan] = useState(false);
     const [vegetarian, setVegetarian] = useState(false);
     const [lactoseFree, setLactoseFree] = useState(false);
+    const theme = useSelector(state => state.themes.dark) ? colors.dark : colors.basic;
 
     const dispatch = useDispatch();
 
@@ -30,10 +31,14 @@ const FiltersScreen = (props) => {
         props.navigation.setParams({ save: saveFilters });
     }, [saveFilters]);
 
+    useEffect(() => {
+        props.navigation.setParams({ elevation: theme.elevation, primary: theme.primary });
+    }, [theme]);
+
     return (
         <View style={styles.screen}>
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Filters</Text>
+                <Text style={{ ...styles.title, color: theme.primary }}>Filters</Text>
             </View>
             <Filter label='Gluten Free' value={glutenFree} onValueChange={value => setGlutenFree(value)} />
             <Filter label='Vegan' value={vegan} onValueChange={value => setVegan(value)} />
@@ -44,7 +49,17 @@ const FiltersScreen = (props) => {
 }
 
 FiltersScreen.navigationOptions = (navData) => {
+    const elevation = navData.navigation.getParam('elevation');
+    const primary = navData.navigation.getParam('primary');
     return {
+        headerTitleStyle: {
+            color: primary,
+            fontFamily: 'open-sans',
+            fontSize: 22
+        },
+        headerStyle: {
+            backgroundColor: elevation
+        },
         headerLeft: () => {
             return (
                 <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

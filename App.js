@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { View } from 'react-native';
 import * as Font from 'expo-font';
 import { enableScreens } from 'react-native-screens';
 import { AppLoading } from 'expo';
@@ -33,7 +34,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <Nav />
+        <Nav />
     </Provider>
   );
 }

@@ -4,12 +4,10 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert } from 'react-n
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
 
 import uuid from 'uuid';
-
 import colors from '../themes/colors';
 
 const RecipeInfo = (props) => {
-    const isDarkTheme = useSelector(state => state.themes.dark);
-    const theme = isDarkTheme ? colors.dark : colors.basic;
+    const theme = useSelector(state => state.themes.dark) ? colors.dark : colors.basic;
 
     const infoAlert = (message) => {
         if(props.navigation.state.routeName !== 'Recipe') {
@@ -18,13 +16,25 @@ const RecipeInfo = (props) => {
         return Alert.alert('Information', message);
     };
 
+    const themeStyles = StyleSheet.create({
+        infoContainer: {
+            backgroundColor: theme.elevation
+        },
+        info: {
+            color: theme.primary,
+        }
+    });
+
     return (
-        <View style={{ ...styles.infoContainer, ...props.style, backgroundColor: theme.elevation }}>
+        <View style={{ ...styles.infoContainer, ...props.style, ...themeStyles.infoContainer }}>
             <TouchableWithoutFeedback onPress={() => infoAlert('Cooking Time')}>
                 <View style={styles.third}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Ionicons name='md-stopwatch' size={30} color={colors.basic.dark} />
-                        <Text style={{ ...styles.info, marginLeft: 2 }}>{props.recipe.duration}m</Text>
+                        <Ionicons name='md-stopwatch' size={30} color={theme.primary} />
+                        <Text
+                            style={{ ...styles.info, marginLeft: 2, ...themeStyles.info }}>
+                                {props.recipe.duration}m
+                        </Text>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -36,7 +46,7 @@ const RecipeInfo = (props) => {
                                 key={uuid.v4()}
                                 name='silverware-fork'
                                 size={25}
-                                color={colors.basic.dark} />)}
+                                color={theme.primary} />)}
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -48,7 +58,7 @@ const RecipeInfo = (props) => {
                                 key={uuid.v4()}
                                 name='dollar-sign'
                                 size={20}
-                                color={colors.basic.dark} />)}
+                                color={theme.primary} />)}
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -61,10 +71,8 @@ export default RecipeInfo
 const styles = StyleSheet.create({
     infoContainer: {
         flexDirection: 'row',
-        //backgroundColor: colors.basic.pearl,
     },
     info: {
-        color: colors.basic.dark,
         fontSize: 18,
     },
     third: {

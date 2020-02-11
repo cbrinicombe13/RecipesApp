@@ -5,7 +5,6 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
 import { Platform } from 'react-native';
-import { useSelector } from 'react-redux';
 
 import HomeScreen from '../screens/HomeScreen';
 import CategoryScreen from '../screens/CategoryScreen';
@@ -16,17 +15,6 @@ import SettingsScreen from '../screens/SettingsScreen';
 
 import colors from '../themes/colors';
 import { Ionicons } from '@expo/vector-icons';
-
-const defaultNavOptions = {
-    headerStyle: {
-        backgroundColor: colors.basic.pearl
-    },
-    headerTitleStyle: {
-        color: colors.basic.dark,
-        fontFamily: 'open-sans',
-        fontSize: 22
-    }
-};
 
 const mainNav = createStackNavigator(
     {
@@ -42,16 +30,12 @@ const mainNav = createStackNavigator(
         Recipe: {
             screen: RecipeScreen,
         }
-    }, {
-    defaultNavigationOptions: defaultNavOptions
-});
+    });
 
 const FavStackNav = createStackNavigator(
     {
         Favorites: FavoritesScreen,
         Recipe: RecipeScreen
-    }, {
-        defaultNavigationOptions: defaultNavOptions
     });
 
 const FavTabNavConfig = {
@@ -96,14 +80,10 @@ const FavTabNav = Platform.OS === 'ios'
 
 const FiltersStack = createStackNavigator({
     Filters: FiltersScreen
-}, {
-    defaultNavigationOptions: defaultNavOptions
 });
 
 const SettingsStack = createStackNavigator({
     Settings: SettingsScreen
-}, {
-    defaultNavigationOptions: defaultNavOptions
 });
 
 const drawerNav = createDrawerNavigator({

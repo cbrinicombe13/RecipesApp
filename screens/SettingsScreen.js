@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 
 import { toggleDark } from '../store/actions/themes'
@@ -10,26 +10,28 @@ import colors from '../themes/colors'
 
 const SettingsScreen = (props) => {
     const [dark, setDark] = useState(false);
+    const theme = useSelector(state => state.themes.dark) ? colors.dark : colors.basic;
 
     const dispatch = useDispatch();
 
-    const saveState = useCallback(() => {
+    const saveDark = (value) => {
+        setDark(value);
         const state = {
             dark: dark
         };
         dispatch(toggleDark(state));
-    }, [dark]);
+    }
 
     useEffect(() => {
-        props.navigation.setParams({ save: saveState });
-    }, [saveState]);
+        props.navigation.setParams({ elevation: theme.elevation, primary: theme.primary });
+    }, [theme]);
 
     return (
-        <View styles={styles.screen}>
+        <View styles={{ ...styles.screen, backgroundColor: theme.surface }}>
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Settings</Text>
+                <Text style={{ ...styles.title, color: theme.primary }}>Settings</Text>
             </View>
-            <Filter label='Dark Mode' value={dark} onValueChange={value => setDark(value)} />
+            <Filter label='Dark Mode' value={dark} onValueChange={saveDark} />
         </View>
     );
 }
@@ -37,7 +39,17 @@ const SettingsScreen = (props) => {
 export default SettingsScreen
 
 SettingsScreen.navigationOptions = (navData) => {
+    const elevation = navData.navigation.getParam('elevation');
+    const primary = navData.navigation.getParam('primary');
     return {
+        headerTitleStyle: {
+            color: primary,
+            fontFamily: 'open-sans',
+            fontSize: 22
+        },
+        headerStyle: {
+            backgroundColor: elevation
+        },
         headerLeft: () => {
             return (
                 <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -50,25 +62,13 @@ SettingsScreen.navigationOptions = (navData) => {
                         }} />
                 </HeaderButtons>
             );
-        },
-        headerRight: () => {
-            return (
-                <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                    <Item
-                        iconName='ios-save'
-                        color={colors.basic.dark}
-                        title='Save'
-                        onPress={navData.navigation.getParam('save')} />
-                </HeaderButtons>
-            );
         }
     }
 };
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     titleContainer: {
         marginTop: 20,

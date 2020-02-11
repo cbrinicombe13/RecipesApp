@@ -7,13 +7,13 @@ export default {
         pearl: '#EADCC6',
         surface: '#fff',
         elevation: '#EADCC6',
-        primary: '#6200EE',
-        secondary: '#03DAC6'
+        primary: '#121212',
+        secondary: '#385763'
     },
     dark: {
         surface: '#121212',
         elevation: '#43484B',
         primary: '#BB86FC',
-        secondary: '#03DAC6'
+        secondary: '#385763'
     }
 }

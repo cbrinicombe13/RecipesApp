@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, FlatList, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux';
 
+import colors from '../themes/colors';
 import RecipeTile from '../components/RecipeTile';
 
 const CategoryScreen = (props) => {
     const catID = props.navigation.getParam('catID');
     const recipes = useSelector(state => state.recipes.filteredRecipes);
+    const theme = useSelector(state => state.themes.dark) ? colors.dark : colors.basic;
+
+    useEffect(() => {
+        props.navigation.setParams({ elevation: theme.elevation, primary: theme.primary });
+    }, [theme]);
 
     const displayRecipes = recipes.filter(recipe => {
         const catIds = recipe.categoryIds;
@@ -48,8 +54,19 @@ const CategoryScreen = (props) => {
 
 CategoryScreen.navigationOptions = (navData) => {
     const catTitle = navData.navigation.getParam('catTitle');
+    const elevation = navData.navigation.getParam('elevation');
+    const primary = navData.navigation.getParam('primary');
     return {
-        headerTitle: catTitle
+        headerTitle: catTitle,
+        headerStyle: {
+            backgroundColor: elevation
+        },
+        headerTitleStyle: {
+            color: primary,
+            fontFamily: 'open-sans',
+            fontSize: 22
+        },
+        headerTintColor: primary
     };
 }
 

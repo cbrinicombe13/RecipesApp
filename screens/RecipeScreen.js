@@ -14,7 +14,7 @@ import colors from '../themes/colors';
 const RecipeScreen = (props) => {
     const recipe = props.navigation.getParam('recipe');
     const recipeIsFav = useSelector(state => state.recipes.favorites.some(recipe => recipe.id === recipe.id));
-
+    const theme = useSelector(state => state.themes.dark) ? colors.dark : colors.basic;
     const dispatch = useDispatch();
 
     const toggleFavoriteHandler = useCallback(() => {
@@ -26,13 +26,32 @@ const RecipeScreen = (props) => {
     }, [toggleFavoriteHandler]);
 
     useEffect(() => {
-        props.navigation.setParams({ isFav: recipeIsFav});
+        props.navigation.setParams({ isFav: recipeIsFav });
     }, [recipeIsFav]);
+
+    useEffect(() => {
+        props.navigation.setParams({ elevation: theme.elevation, primary: theme.primary });
+    }, [theme]);
+
+    const themeStyles = StyleSheet.create({
+        titleContainer: {
+            backgroundColor: theme.elevation
+        },
+        title: {
+            color: theme.primary,
+        },
+        info: {
+            color: theme.primary
+        },
+        ingredientsHeader: {
+            borderBottomColor: theme.primary
+        }
+    });
 
     return (
         <ScrollView style={styles.screen}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines={1}>{recipe.title}</Text>
+            <View style={{ ...styles.titleContainer, ...themeStyles.titleContainer }}>
+                <Text style={{ ...styles.title, ...themeStyles.title }} numberOfLines={1}>{recipe.title}</Text>
             </View>
             <View style={styles.imageContainer}>
                 <Image source={{ uri: recipe.imageUrl }} style={styles.bgImage} />
@@ -51,8 +70,8 @@ const RecipeScreen = (props) => {
                 })}
             </View>
             <View style={styles.ingredientsContainer}>
-                <View style={styles.ingredientsHeader}>
-                    <Text style={styles.info}>Method</Text>
+                <View style={{ ...styles.ingredientsHeader, ...themeStyles.ingredientsContainer }}>
+                    <Text style={{ ...styles.info, ...themeStyles.info }}>Method</Text>
                 </View>
                 {recipe.steps.map(item => {
                     return (
@@ -67,7 +86,18 @@ const RecipeScreen = (props) => {
 RecipeScreen.navigationOptions = navData => {
     const toggleFav = navData.navigation.getParam('toggleFav');
     const isFav = navData.navigation.getParam('isFav');
+    const elevation = navData.navigation.getParam('elevation');
+    const primary = navData.navigation.getParam('primary');
     return {
+        headerStyle: {
+            backgroundColor: elevation
+        },
+        headerTitleStyle: {
+            color: primary,
+            fontFamily: 'open-sans',
+            fontSize: 22
+        },
+        headerTintColor: primary,
         headerRight: () => {
             return (
                 <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -98,11 +128,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: borderRadius,
-        backgroundColor: colors.basic.pearl
     },
     title: {
         fontSize: 22,
-        color: colors.basic.dark,
         fontFamily: 'open-sans'
     },
     imageContainer: {
@@ -117,7 +145,6 @@ const styles = StyleSheet.create({
         borderRadius: borderRadius
     },
     info: {
-        color: colors.basic.dark,
         fontSize: 18,
         fontFamily: 'open-sans'
     },
@@ -125,21 +152,11 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomColor: colors.basic.dark,
         borderBottomWidth: 1
     },
     ingredientsContainer: {
         marginHorizontal: 10,
         marginVertical: 5
-    },
-    itemContainer: {
-        marginHorizontal: 10,
-        marginVertical: 5,
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: borderRadius,
-        backgroundColor: colors.basic.pearl
     },
     recipeInfo: {
         borderRadius: borderRadius,
